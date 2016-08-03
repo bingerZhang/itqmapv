@@ -11,7 +11,9 @@ bmap.setMinZoom(6)
 bmap.setMaxZoom(11)
 //bmap.getContainer().style.background = '#081734';
 bmap.setMapStyle({
-    styleJson: [{
+    styleJson: [
+	
+	{
         featureType: 'water',
         elementType: 'all',
         stylers: {
@@ -29,7 +31,13 @@ bmap.setMapStyle({
         stylers: {
             color: '#064f85'
         }
-    }, {
+    },{
+        featureType: 'road',
+        elementType: 'all',
+        stylers: {
+            lightness: 20
+        }
+    },{
         featureType: 'railway',
         elementType: 'all',
         stylers: {
@@ -46,7 +54,7 @@ bmap.setMapStyle({
         elementType: 'geometry.fill',
         stylers: {
             color: '#005b96',
-            lightness: 1
+            lightness: 2
         }
     }, {
         featureType: 'highway',
@@ -58,6 +66,7 @@ bmap.setMapStyle({
         featureType: 'arterial',
         elementType: 'geometry',
         stylers: {
+
             color: '#004981',
             lightness: -39
         }

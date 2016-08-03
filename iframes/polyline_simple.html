@@ -28,45 +28,14 @@
         map: bmap  // 百度地图的map实例
     });
     var line_datas = [];
-    fetchLines();
-    
-    var layer = new Mapv.Layer({
-        zIndex: 1,
-        mapv: mapv,
-        dataType: 'polyline',
-        coordType: 'bd09mc',
-        data: [
-                {
-                    geo:[
-                    [13040863.91,3453693.633],
-                    [13039153.551,3442150.567],
-                    [12886708.995,2854416.281],
-                    [12680132.715,2639864.014]
-                    ],
-                    count:1
-                }
-            ],
-                    
-        drawType: 'simple',
-        drawOptions: {
-            lineWidth: 5,
-            strokeStyle: "rgba(0, 0, 255, 0.3)"
-        }
-    });
-    var layer2 = new Mapv.Layer({
-        zIndex: 2,
-        mapv: mapv,
-        dataType: 'polyline',
-        coordType: 'bd09mc',
-        data: line_datas,
-                    
-        drawType: 'simple',
-        drawOptions: {
-            lineWidth: 5,
-            strokeStyle: "rgba(0, 0, 255, 0.3)"
-        }
-    });
-    function fetchLines(point,cb) {
+	var cred = "rgba(255, 0, 0, 1)";
+	var cgreen = "rgba(0, 255, 0, 1)";
+	var cbule ="rgba(0, 0, 255, 1)"
+    fetchLines(1,cbule);
+	fetchLines(2,cgreen);
+	fetchLines(3,cred);
+
+    function fetchLines(level,color,cb) {
         RF.request({
             host: 'http://127.0.0.1:8070/',
             path: 'r_api_rain',
@@ -74,18 +43,30 @@
                 //lng: point.lng,
                 //lat: point.lat,
                 index: 60,
-                level: 3
+                level: level
             },
             suc: function(ret) {
-                showLines(ret);
+                showLines(ret,color);
             },
             fai: function(ret) {
-                showLines(ret);
+                showLines(ret,color);
             }
         });
     }
-    function showLines(ret){
+    function showLines(ret,color){
         line_datas = ret["lines"];
+		var layer = new Mapv.Layer({
+			zIndex: 1,
+			mapv: mapv,
+			dataType: 'polyline',
+			coordType: 'bd09mc',
+			data: line_datas,     
+			drawType: 'simple',
+			drawOptions: {
+				lineWidth: 5,
+				strokeStyle: color
+			}
+		});
     }
 </script>
 </body>
