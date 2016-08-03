@@ -13,6 +13,7 @@
 <script type="text/javascript" src="../js/lib/Mapv.js"></script>
 <script type="text/javascript" src="../js/lib/example.js"></script>
 <script type="text/javascript" src="../js/lib/drive.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/lib/itq_brw_base.min.js"></script>
 <script type="text/javascript">
 
     /**
@@ -27,7 +28,7 @@
         map: bmap  // 百度地图的map实例
     });
     var line_datas = [];
-    //fetchLines();
+    fetchLines();
     
     var layer = new Mapv.Layer({
         zIndex: 1,
@@ -52,15 +53,27 @@
             strokeStyle: "rgba(0, 0, 255, 0.3)"
         }
     });
-    
+    var layer2 = new Mapv.Layer({
+        zIndex: 2,
+        mapv: mapv,
+        dataType: 'polyline',
+        coordType: 'bd09mc',
+        data: line_datas,
+                    
+        drawType: 'simple',
+        drawOptions: {
+            lineWidth: 5,
+            strokeStyle: "rgba(0, 0, 255, 0.3)"
+        }
+    });
     function fetchLines(point,cb) {
         RF.request({
             host: 'http://127.0.0.1:8070/',
             path: 'r_api_rain',
             params: {
-                lng: point.lng,
-                lat: point.lat,
-                index: '60',
+                //lng: point.lng,
+                //lat: point.lat,
+                index: 60,
                 level: 3
             },
             suc: function(ret) {
@@ -72,26 +85,7 @@
         });
     }
     function showLines(ret){
-        line_datas = ret;
-        var linesegs = ret[lines][0]["segs"];
-
-        var ret1 = testm["points"];
-        var polylines = [];
-        for(var j=0;j<linesegs.length;j++)
-        {
-            var linepoints1 = [];
-            var seg = linesegs[j];
-            var ret = seg["points"];
-            for(var i=0;i<ret.length;i++){
-       
-                var x = ret1[i][0];
-                var y = ret1[i][1];
-                linepoints1.push(new BMap.Point(x, y) );
-            }
-            var polyline = new BMap.Polyline(linepoints1, {strokeColor:"blue", strokeWeight:2+i, strokeOpacity:0.5});   //创建折线
-            map.addOverlay(polyline);
-            //polylines.push(polyline);
-        }
+        line_datas = ret["lines"];
     }
 </script>
 </body>
